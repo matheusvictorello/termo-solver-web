@@ -1,0 +1,103 @@
+* {
+	margin: 0;
+	padding: 0;
+	
+	box-sizing: border-box;
+
+	/*
+	#FAFAFF // branco
+	#D3AC69 // amarelo
+	#3AA394 // ciano
+	#6E5C62 // marrom claro 1
+	#615458 // marrom claro 2
+	#4C4347 // marrom
+	#312A2C // marrom escuro
+	*/
+}
+
+body {
+	background-color: #6E5C62;
+}
+
+.square {
+	width: 6vh;
+	height: 6vh;
+
+	font-size: 4vh;
+	font-weight: bold;
+	font-family: monospace;
+	color: #FAFAFF;
+
+	line-height: 5vh;
+	text-align: center;
+
+	background-color: #6E5C62;
+
+	border: 0.5vh solid #4C4347;
+	border-radius: 1vh;
+
+	margin: 0.25vh;
+
+	transition: border-radius 0.05s ease-in;
+	cursor: pointer;
+}
+
+.no_underline {
+  	text-decoration: none;
+}
+
+.right {
+	background-color: #3AA394;
+}
+
+.wrong {
+	background-color: #312A2C;
+}
+
+.place {
+	background-color: #D3AC69;
+}
+
+.blank {
+	background-color: #4C4347;
+}
+
+.selected {
+	border-radius: 3vh;
+}
+
+.square_line {
+	display: flex;
+}
+
+.letter_card {
+	display: flex;
+	justify-content: center;
+	margin: 1vh;
+}
+
+.letter_card .inner {
+	display: flex;
+	flex-direction: column;
+}
+
+.termo_game {
+	display: flex;
+	justify-content: center;
+}
+
+.termo_game .inner {
+	display: flex;
+	flex-direction: column;
+}
+
+.termo_game .letter_card_wrapper {
+	display: flex;
+	gap: 4vh;
+}
+
+.palette {
+	display: flex;
+	justify-content: center;
+	margin: 1vh;
+}
