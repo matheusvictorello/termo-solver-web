@@ -1,5 +1,5 @@
 [package]
-name = "termo-solver-web"
+name = "termo-solver-web-2"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,8 +9,7 @@ edition = "2021"
 opt-level = 3
 
 [dependencies]
-float-ord = "0.3.2"
-unroll = "0.1.5"
+termo-solver = { git = "https://github.com/matheusvictorello/termo-solver" }
 yew = { version="0.19.3", features=[] }
 yew-router = { version="0.16", features=[] }
 wasm-bindgen-futures = "0.4.30"

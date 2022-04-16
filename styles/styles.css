@@ -7,7 +7,9 @@
 	/*
 	#FAFAFF // branco
 	#D3AC69 // amarelo
+	#E36322 // laranja
 	#3AA394 // ciano
+	#0197F6 // azul
 	#6E5C62 // marrom claro 1
 	#615458 // marrom claro 2
 	#4C4347 // marrom
@@ -19,31 +21,64 @@ body {
 	background-color: #6E5C62;
 }
 
+/* Generic */
+
+.center {
+	display: flex;
+	justify-content: center;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+/* Controller */
+
+.controller {
+	display: flex;
+	flex-direction: column;
+}
+
+.controller_blocks {
+	display: flex;
+	margin: 1vh;
+}
+
+/* BlockCard */
+
+.block_card {
+	margin: 1vh;
+}
+
+/* SquareLine */
+
+.square_line {
+	display: flex;
+}
+
+/* Square */
+
 .square {
 	width: 6vh;
 	height: 6vh;
 
-	font-size: 4vh;
-	font-weight: bold;
-	font-family: monospace;
-	color: #FAFAFF;
-
-	line-height: 5vh;
-	text-align: center;
+	margin: 0.25vh;
 
 	background-color: #6E5C62;
 
 	border: 0.5vh solid #4C4347;
 	border-radius: 1vh;
 
-	margin: 0.25vh;
+	line-height: 5vh;
+	text-align: center;
+	text-transform: uppercase;
+
+	font-size: 4vh;
+	font-weight: 600;
+	font-family: monospace;
+	color: #FAFAFF;
 
 	transition: border-radius 0.05s ease-in;
-	cursor: pointer;
-}
-
-.no_underline {
-  	text-decoration: none;
 }
 
 .right {
@@ -59,45 +94,17 @@ body {
 }
 
 .blank {
-	background-color: #4C4347;
+	border: none;
+	background-color: #615458;
 }
 
 .selected {
 	border-radius: 3vh;
 }
 
-.square_line {
-	display: flex;
-}
+/* ColumnPallete & StatusPallete */
 
-.letter_card {
+.pallete {
 	display: flex;
-	justify-content: center;
-	margin: 1vh;
-}
-
-.letter_card .inner {
-	display: flex;
-	flex-direction: column;
-}
-
-.termo_game {
-	display: flex;
-	justify-content: center;
-}
-
-.termo_game .inner {
-	display: flex;
-	flex-direction: column;
-}
-
-.termo_game .letter_card_wrapper {
-	display: flex;
-	gap: 4vh;
-}
-
-.palette {
-	display: flex;
-	justify-content: center;
 	margin: 1vh;
 }

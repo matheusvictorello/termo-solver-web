@@ -1,15 +1,10 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
-use web_sys::console;
+// use web_sys::console;
 
-mod termo;
+mod components;
 
-mod TermoGame;
-mod LetterCard;
-mod SquareLine;
-mod Square;
-mod ColorPalette;
-mod BlockPalette;
+use components::controller::Controller;
 
 #[derive(Clone, Routable, PartialEq)]
 enum Route {
@@ -24,10 +19,10 @@ enum Route {
 fn switch(route: &Route) -> Html {
     match route {
         Route::TermoDefault => html! {
-            <TermoGame::TermoGame columns={1} />
+            <Controller columns={1} />
         },
         Route::Termo { columns } => html! {
-            <TermoGame::TermoGame columns={columns.clone()} />
+            <Controller columns={columns.clone()} />
         },
     }
 }
