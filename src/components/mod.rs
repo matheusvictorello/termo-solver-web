@@ -1,9 +1,9 @@
-pub mod center;
-pub mod clickable;
+pub mod data;
+pub mod generic;
 
-pub mod controller;
-pub mod column_pallete;
-pub mod status_pallete;
 pub mod block_card;
-pub mod square_line;
+pub mod column_pallete;
+pub mod controller;
 pub mod square;
+pub mod square_line;
+pub mod status_pallete;

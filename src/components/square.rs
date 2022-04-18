@@ -1,6 +1,6 @@
 use termo_solver::Status as TSStatus;
+
 use yew::prelude::*;
-// use web_sys::console;
 
 #[derive(Properties, PartialEq)]
 pub struct Properties {

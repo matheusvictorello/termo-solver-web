@@ -1,8 +1,7 @@
 use yew::prelude::*;
-use web_sys::console;
 
-use crate::components::clickable::Clickable;
-use crate::components::controller::Entry;
+use crate::components::data::entry::Entry;
+use crate::components::generic::clickable::Clickable;
 use crate::components::square::Square;
 
 #[derive(Properties, PartialEq)]

@@ -1,9 +1,9 @@
 use termo_solver::Status as TSStatus;
-use yew::prelude::*;
-// use web_sys::console;
 
-use crate::components::center::Center;
-use crate::components::clickable::Clickable;
+use yew::prelude::*;
+
+use crate::components::generic::center::Center;
+use crate::components::generic::clickable::Clickable;
 use crate::components::square::Square;
 
 #[derive(Properties, PartialEq)]
