@@ -3,6 +3,7 @@ use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Properties {
+    #[prop_or_default]
     pub children: Children,
     pub onclick: Callback<()>,
 }
@@ -13,7 +14,7 @@ pub fn clickable(props: &Properties) -> Html {
 
     html! {
         <div class="clickable" onclick={move |_| onclick.emit(())} >
-            { for props.children.iter() }
+            { props.children.clone() }
         </div>
     }
 }

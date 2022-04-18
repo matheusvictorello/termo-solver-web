@@ -32,11 +32,48 @@ body {
 	cursor: pointer;
 }
 
+.switch {
+	width: 8vh;
+	height: 6vh;
+
+	background-color: #6E5C62;
+
+	border: 0.5vh solid #4C4347;
+	border-radius: 3vh;
+
+	transition: margin-left 0.5s ease;
+	transition: background-color 0.5s ease-out;
+}
+
+.inner_switch {
+	width: 4vh;
+	height: 4vh;
+
+	margin: 0.5vh;
+
+	background-color: #4C4347;
+
+	border-radius: 2vh;
+}
+
+.switch_set {
+	background-color: #FAFAFF;
+}
+
+.inner_switch_set {
+	margin-left: 2.5vh;
+}
+
 /* Controller */
 
 .controller {
 	display: flex;
 	flex-direction: column;
+}
+
+.controller_first_row {
+	display: flex;
+	margin: 1vh;
 }
 
 .controller_blocks {
@@ -85,12 +122,20 @@ body {
 	background-color: #3AA394;
 }
 
+.right_colorblind {
+	background-color: #0197F6;
+}
+
 .wrong {
 	background-color: #312A2C;
 }
 
 .place {
 	background-color: #D3AC69;
+}
+
+.place_colorblind {
+	background-color: #E36322;
 }
 
 .blank {

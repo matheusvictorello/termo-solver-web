@@ -3,6 +3,7 @@ use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Properties {
+    #[prop_or_default]
     pub children: Children,
 }
 
@@ -10,7 +11,7 @@ pub struct Properties {
 pub fn center(props: &Properties) -> Html {
     html! {
         <div class="center">
-            { for props.children.iter() }
+            { props.children.clone() }
         </div>
     }
 }

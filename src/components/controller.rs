@@ -4,14 +4,18 @@ use termo_solver::Solver  as TSSolver;
 use termo_solver::Status  as TSStatus;
 
 use yew::prelude::*;
+use yew::context::ContextHandle;
 use wasm_bindgen_futures;
 
 use crate::components::data::block::Block;
 use crate::components::data::entry::Entry;
 use crate::components::generic::center::Center;
+use crate::components::generic::switch::Switch;
 use crate::components::block_card::BlockCard;
 use crate::components::column_pallete::ColumnPallete;
 use crate::components::status_pallete::StatusPallete;
+use crate::ctx::color_ctx::Color;
+use crate::ctx::color_ctx::ColorContext;
 
 pub const MAX_COLUMNS: usize = 4;
 pub const MAX_LINES:   usize = 8;
@@ -21,6 +25,7 @@ pub enum Message {
     StatusSelected(Option<TSStatus>),
     SquareSelected(usize, usize, usize),
     SolverFinished(TSBest),
+    ColorCtxUpdated(ColorContext),
 }
 
 #[derive(Properties, PartialEq)]
@@ -29,37 +34,14 @@ pub struct Properties {
 }
 
 pub struct Controller {
-    columns: usize,
-    status:  Option<TSStatus>,
-    blocks:  [Block; MAX_COLUMNS],
+    columns:                usize,
+    status:                 Option<TSStatus>,
+    blocks:                 [Block; MAX_COLUMNS],
+    color:                  ColorContext,
+    color_context_listener: ContextHandle<ColorContext>,
 }
 
 impl Controller {
-    fn new(columns: usize) -> Self {
-        let (columns, lines) = match columns {
-            0 => (1, 6),
-            1 => (1, 6),
-            2 => (2, 7),
-            3 => (2, 7),
-            _ => (4, 8),
-        };
-
-        let status = None;
-
-        let blocks = {
-            let mut b = [Block::default(); MAX_COLUMNS];
-            
-            for i in 0..MAX_COLUMNS {
-                b[i].lines = lines;
-                b[i].entries[0] = Entry::Editable(BEST_STARTER.clone(), [None; 5]);
-            }
-            
-            b
-        };
-
-        Self { columns, status, blocks }
-    }
-
     async fn solve(cb: Callback<TSBest>, columns: usize, blocks: [Block; MAX_COLUMNS]) {
         let multiple_entries = blocks
             .iter()
@@ -91,11 +73,64 @@ impl Component for Controller {
     type Properties = Properties;
     
     fn create(ctx: &Context<Self>) -> Self {
-        Self::new(ctx.props().columns)
+        let (columns, lines) = match ctx.props().columns {
+            0 => (1, 6),
+            1 => (1, 6),
+            2 => (2, 7),
+            3 => (2, 7),
+            _ => (4, 8),
+        };
+
+        let status = None;
+
+        let blocks = {
+            let mut b = [Block::default(); MAX_COLUMNS];
+            
+            for i in 0..MAX_COLUMNS {
+                b[i].lines = lines;
+                b[i].entries[0] = Entry::Editable(BEST_STARTER.clone(), [None; 5]);
+            }
+            
+            b
+        };
+
+        let (color, color_context_listener) = ctx
+            .link()
+            .context(ctx.link().callback(Self::Message::ColorCtxUpdated))
+            .expect("No Color Context Provided");
+
+        Self { columns, status, blocks, color, color_context_listener }
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        *self = Self::new(ctx.props().columns);
+        let new_columns = ctx.props().columns;
+
+        if self.columns == new_columns {
+            return false;
+        }
+
+        let (columns, lines) = match new_columns {
+            0 => (1, 6),
+            1 => (1, 6),
+            2 => (2, 7),
+            3 => (2, 7),
+            _ => (4, 8),
+        };
+
+        let blocks = {
+            let mut b = [Block::default(); MAX_COLUMNS];
+            
+            for i in 0..MAX_COLUMNS {
+                b[i].lines = lines;
+                b[i].entries[0] = Entry::Editable(BEST_STARTER.clone(), [None; 5]);
+            }
+            
+            b
+        };
+        
+        self.columns                = columns;
+        self.blocks                 = blocks;
+
         true
     }
 
@@ -105,14 +140,32 @@ impl Component for Controller {
         let select_columns = link.callback(|v| {
             Self::Message::ColumnsSelected(v)
         });
+
         let select_status  = link.callback(|v| {
             Self::Message::StatusSelected(v)
         });
 
+        let swap_color = {
+            let color = self.color.clone();
+
+            Callback::from(move |set| {
+                if set {
+                    color.dispatch(Color::Colorblind);
+                } else {
+                    color.dispatch(Color::Default);
+                }
+            })
+        };
+
         html! {
             <Center>
                 <div class="controller">
-                    <ColumnPallete columns={self.columns} onclick={select_columns} />
+                    <Center>
+                        <div class="controller_first_row">
+                            <ColumnPallete columns={self.columns} onclick={select_columns} />
+                            <Switch set={*self.color == Color::Colorblind} onclick={swap_color} />
+                        </div>
+                    </Center>
                     <StatusPallete status={self.status} onclick={select_status} />
                     <div class="controller_blocks">
                         {
@@ -138,8 +191,32 @@ impl Component for Controller {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Self::Message::ColumnsSelected(columns) => {
-                *self = Self::new(columns);
+            Self::Message::ColumnsSelected(new_columns) => {
+                if self.columns == new_columns {
+                    return false;
+                }
+
+                let (columns, lines) = match new_columns {
+                    0 => (1, 6),
+                    1 => (1, 6),
+                    2 => (2, 7),
+                    3 => (2, 7),
+                    _ => (4, 8),
+                };
+
+                let blocks = {
+                    let mut b = [Block::default(); MAX_COLUMNS];
+                    
+                    for i in 0..MAX_COLUMNS {
+                        b[i].lines = lines;
+                        b[i].entries[0] = Entry::Editable(BEST_STARTER.clone(), [None; 5]);
+                    }
+                    
+                    b
+                };
+
+                self.columns = columns;
+                self.blocks  = blocks;
             }
             
             Self::Message::StatusSelected(status) => {
@@ -182,6 +259,10 @@ impl Component for Controller {
                         .map(|block| block.push(word))
                         .collect::<Vec<()>>();
                 }
+            }
+
+            Self::Message::ColorCtxUpdated(color) => {
+                self.color = color;
             }
         }
 

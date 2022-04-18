@@ -2,6 +2,9 @@ use termo_solver::Status as TSStatus;
 
 use yew::prelude::*;
 
+use crate::ctx::color_ctx::Color;
+use crate::ctx::color_ctx::ColorContext;
+
 #[derive(Properties, PartialEq)]
 pub struct Properties {
     pub status:   Option<TSStatus>,
@@ -13,10 +16,18 @@ pub struct Properties {
 pub fn view(props: &Properties) -> Html {
     let Properties { status, letter, selected } = props;
 
+    let color_ctx = use_context::<ColorContext>().unwrap();
+
     let status = match status {
-        Some(TSStatus::Right) => Some("right"),
+        Some(TSStatus::Right) => match *color_ctx {
+            Color::Default    => Some("right"),
+            Color::Colorblind => Some("right_colorblind"),
+        },
         Some(TSStatus::Wrong) => Some("wrong"),
-        Some(TSStatus::Place) => Some("place"),
+        Some(TSStatus::Place) => match *color_ctx {
+            Color::Default    => Some("place"),
+            Color::Colorblind => Some("place_colorblind"),
+        },
         None                  => match letter {
             Some(_) => None,
             None    => Some("blank"),
