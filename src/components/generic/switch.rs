@@ -1,18 +1,18 @@
 use yew::prelude::*;
-use web_sys::console;
 
-use crate::components::generic::center::Center;
 use crate::components::generic::clickable::Clickable;
 
 #[derive(Properties, PartialEq)]
 pub struct Properties {
-    pub set: bool,
+    #[prop_or_default]
+    pub class:   Classes,
+    pub set:     bool,
     pub onclick: Callback<bool>,
 }
 
 #[function_component(Switch)]
 pub fn view(props: &Properties) -> Html {
-    let Properties { set, onclick, .. } = props;
+    let Properties { class, set, onclick, .. } = props;
 
     let set = *set;
 
@@ -32,16 +32,10 @@ pub fn view(props: &Properties) -> Html {
     let onclick = Callback::from(move |_| onclick.emit(!set));
 
     html! {
-        <Center>
-            <Clickable {onclick} >
-                <div class="pallete">
-                    <div class={classes!("switch", switch_set_class)}>
-                        <div class={classes!("inner_switch", inner_switch_set_class)}>
-                            {" "}
-                        </div>
-                    </div>
-                </div>
-            </Clickable>
-        </Center>
+        <Clickable {onclick} class={class.clone()}>
+            <div class={classes!("switch", switch_set_class)}>
+                <div class={classes!("inner_switch", inner_switch_set_class)} />
+            </div>
+        </Clickable>
     }
 }

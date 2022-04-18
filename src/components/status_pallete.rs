@@ -18,26 +18,24 @@ pub fn view(props: &Properties) -> Html {
 
     html! {
         <Center>
-            <div class="pallete">
-                {
-                    for [
-                        None,
-                        Some(TSStatus::Right),
-                        Some(TSStatus::Wrong),
-                        Some(TSStatus::Place),
-                    ].map(|status| {
-                        let selected = *sel_status == status;
-                        let onclick = onclick.clone();
-                        let onclick = Callback::from(move |_| onclick.emit(status));
+            {
+                for [
+                    None,
+                    Some(TSStatus::Right),
+                    Some(TSStatus::Wrong),
+                    Some(TSStatus::Place),
+                ].map(|status| {
+                    let selected = *sel_status == status;
+                    let onclick = onclick.clone();
+                    let onclick = Callback::from(move |_| onclick.emit(status));
 
-                        html! {
-                            <Clickable {onclick}>
-                                <Square letter={' '} {status} {selected} />
-                            </Clickable>
-                        }
-                    })
-                }
-            </div>
+                    html! {
+                        <Clickable {onclick}>
+                            <Square letter={' '} {status} {selected} />
+                        </Clickable>
+                    }
+                })
+            }
         </Center>
     }
 }

@@ -34,11 +34,11 @@ pub struct Properties {
 }
 
 pub struct Controller {
-    columns:                usize,
-    status:                 Option<TSStatus>,
-    blocks:                 [Block; MAX_COLUMNS],
-    color:                  ColorContext,
-    color_context_listener: ContextHandle<ColorContext>,
+    columns:                 usize,
+    status:                  Option<TSStatus>,
+    blocks:                  [Block; MAX_COLUMNS],
+    color:                   ColorContext,
+    _color_context_listener: ContextHandle<ColorContext>,
 }
 
 impl Controller {
@@ -94,12 +94,12 @@ impl Component for Controller {
             b
         };
 
-        let (color, color_context_listener) = ctx
+        let (color, _color_context_listener) = ctx
             .link()
             .context(ctx.link().callback(Self::Message::ColorCtxUpdated))
             .expect("No Color Context Provided");
 
-        Self { columns, status, blocks, color, color_context_listener }
+        Self { columns, status, blocks, color, _color_context_listener }
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
@@ -128,8 +128,8 @@ impl Component for Controller {
             b
         };
         
-        self.columns                = columns;
-        self.blocks                 = blocks;
+        self.columns = columns;
+        self.blocks  = blocks;
 
         true
     }
@@ -167,7 +167,7 @@ impl Component for Controller {
                         </div>
                     </Center>
                     <StatusPallete status={self.status} onclick={select_status} />
-                    <div class="controller_blocks">
+                    <Center class="controller_blocks">
                         {
                             for self.blocks
                                 .into_iter()
@@ -183,7 +183,7 @@ impl Component for Controller {
                                     }
                                 })
                         }
-                    </div>
+                    </Center>
                 </div>
             </Center>
         }

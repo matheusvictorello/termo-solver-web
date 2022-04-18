@@ -16,23 +16,21 @@ pub fn view(props: &Properties) -> Html {
 
     html! {
         <Center>
-            <div class="pallete">
-                {
-                    for [1 as usize, 2, 4].map(|digit| {
-                        let letter = char::from_digit(digit as u32, 10);
+            {
+                for [1 as usize, 2, 4].map(|digit| {
+                    let letter = char::from_digit(digit as u32, 10);
 
-                        let selected = *columns == digit;
-                        let onclick  = onclick.clone();
-                        let onclick  = Callback::from(move |_| onclick.emit(digit));
+                    let selected = *columns == digit;
+                    let onclick  = onclick.clone();
+                    let onclick  = Callback::from(move |_| onclick.emit(digit));
 
-                        html! {
-                            <Clickable {onclick}>
-                                <Square {letter} {selected} />
-                            </Clickable>
-                        }
-                    })
-                }
-            </div>
+                    html! {
+                        <Clickable {onclick}>
+                            <Square {letter} {selected} />
+                        </Clickable>
+                    }
+                })
+            }
         </Center>
     }
 }

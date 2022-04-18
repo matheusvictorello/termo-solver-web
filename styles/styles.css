@@ -33,27 +33,28 @@ body {
 }
 
 .switch {
-	width: 8vh;
-	height: 6vh;
+	width: 6rem;
+	height: 4rem;
+
+	margin: 0.2rem;
 
 	background-color: #6E5C62;
 
-	border: 0.5vh solid #4C4347;
-	border-radius: 3vh;
+	border: 0.3rem solid #4C4347;
+	border-radius: 2rem;
 
-	transition: margin-left 0.5s ease;
 	transition: background-color 0.5s ease-out;
 }
 
 .inner_switch {
-	width: 4vh;
-	height: 4vh;
+	width: 3rem;
+	height: 3rem;
 
-	margin: 0.5vh;
+	margin: 0.2rem;
 
 	background-color: #4C4347;
 
-	border-radius: 2vh;
+	border-radius: 1.5rem;
 }
 
 .switch_set {
@@ -61,7 +62,7 @@ body {
 }
 
 .inner_switch_set {
-	margin-left: 2.5vh;
+	margin-left: 2.2rem;
 }
 
 /* Controller */
@@ -73,18 +74,19 @@ body {
 
 .controller_first_row {
 	display: flex;
-	margin: 1vh;
+	margin: 0.5rem;
 }
 
 .controller_blocks {
 	display: flex;
-	margin: 1vh;
+	margin: 0.5rem;
+	flex-wrap: wrap;
 }
 
 /* BlockCard */
 
 .block_card {
-	margin: 1vh;
+	margin: 0.5rem;
 }
 
 /* SquareLine */
@@ -96,21 +98,21 @@ body {
 /* Square */
 
 .square {
-	width: 6vh;
-	height: 6vh;
+	width: 4rem;
+	height: 4rem;
 
-	margin: 0.25vh;
+	margin: 0.2rem;
 
 	background-color: #6E5C62;
 
-	border: 0.5vh solid #4C4347;
-	border-radius: 1vh;
+	border: 0.3rem solid #4C4347;
+	border-radius: 0.8rem;
 
-	line-height: 5vh;
+	line-height: 3.4rem;
 	text-align: center;
 	text-transform: uppercase;
 
-	font-size: 4vh;
+	font-size: 2.8rem;
 	font-weight: 600;
 	font-family: monospace;
 	color: #FAFAFF;
@@ -144,12 +146,12 @@ body {
 }
 
 .selected {
-	border-radius: 3vh;
+	border-radius: 2rem;
 }
 
 /* ColumnPallete & StatusPallete */
 
 .pallete {
 	display: flex;
-	margin: 1vh;
+	margin: 0.5rem;
 }

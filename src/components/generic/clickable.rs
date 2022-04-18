@@ -4,17 +4,28 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct Properties {
     #[prop_or_default]
+    pub class:    Classes,
+    #[prop_or_default]
     pub children: Children,
-    pub onclick: Callback<()>,
+    pub onclick:  Callback<()>,
 }
 
 #[function_component(Clickable)]
 pub fn clickable(props: &Properties) -> Html {
-    let onclick = props.onclick.clone();
+    let Properties {
+        class,
+        children,
+        onclick,
+    } = &props;
+
+    let onclick = onclick.clone();
 
     html! {
-        <div class="clickable" onclick={move |_| onclick.emit(())} >
-            { props.children.clone() }
+        <div
+            class={classes!("clickable", class.clone())}
+            onclick={move |_| onclick.emit(())}
+        >
+            { children.clone() }
         </div>
     }
 }
