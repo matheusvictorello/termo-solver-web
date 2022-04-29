@@ -1,0 +1,3 @@
+[submodule "termo-solver"]
+	path = termo-solver
+	url = http://github.com/matheusvictorello/termo-solver

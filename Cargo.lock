@@ -375,7 +375,6 @@ dependencies = [
 [[package]]
 name = "termo-solver"
 version = "1.0.0"
-source = "git+https://github.com/matheusvictorello/termo-solver#4726db389b31731afd0ec60f283462e4106e7936"
 dependencies = [
  "float-ord",
  "unroll",

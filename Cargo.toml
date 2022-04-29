@@ -9,7 +9,7 @@ edition = "2021"
 opt-level = 3
 
 [dependencies]
-termo-solver = { git = "https://github.com/matheusvictorello/termo-solver" }
+termo-solver = { path = "./termo-solver" }
 yew = { version="0.19.3", features=[] }
 yew-router = { version="0.16", features=[] }
 wasm-bindgen-futures = "0.4.30"
