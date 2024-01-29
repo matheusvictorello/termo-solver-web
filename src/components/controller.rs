@@ -18,7 +18,7 @@ use crate::ctx::color_ctx::Color;
 use crate::ctx::color_ctx::ColorContext;
 
 pub const MAX_COLUMNS: usize = 4;
-pub const MAX_LINES:   usize = 8;
+pub const MAX_LINES:   usize = 9;
 
 pub enum Message {
     ColumnsSelected(usize),
@@ -68,18 +68,22 @@ impl Controller {
     }
 }
 
+fn get_cols_and_lines(cols: usize) -> (usize, usize) {
+    match cols {
+        0 => (1, 6),
+        1 => (1, 6),
+        2 => (2, 7),
+        3 => (2, 7),
+        _ => (4, 9),
+    }
+}
+
 impl Component for Controller {
     type Message    = Message;
     type Properties = Properties;
     
     fn create(ctx: &Context<Self>) -> Self {
-        let (columns, lines) = match ctx.props().columns {
-            0 => (1, 6),
-            1 => (1, 6),
-            2 => (2, 7),
-            3 => (2, 7),
-            _ => (4, 8),
-        };
+        let (columns, lines) = get_cols_and_lines(ctx.props().columns);
 
         let status = None;
 
@@ -109,13 +113,7 @@ impl Component for Controller {
             return false;
         }
 
-        let (columns, lines) = match new_columns {
-            0 => (1, 6),
-            1 => (1, 6),
-            2 => (2, 7),
-            3 => (2, 7),
-            _ => (4, 8),
-        };
+        let (columns, lines) = get_cols_and_lines(new_columns);
 
         let blocks = {
             let mut b = [Block::default(); MAX_COLUMNS];
@@ -196,13 +194,7 @@ impl Component for Controller {
                     return false;
                 }
 
-                let (columns, lines) = match new_columns {
-                    0 => (1, 6),
-                    1 => (1, 6),
-                    2 => (2, 7),
-                    3 => (2, 7),
-                    _ => (4, 8),
-                };
+                let (columns, lines) = get_cols_and_lines(new_columns);
 
                 let blocks = {
                     let mut b = [Block::default(); MAX_COLUMNS];
