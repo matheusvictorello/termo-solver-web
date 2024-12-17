@@ -1,18 +1,20 @@
 use termo_solver::BEST_STARTER;
-use termo_solver::Best    as TSBest;
-use termo_solver::Solver  as TSSolver;
-use termo_solver::Status  as TSStatus;
+use termo_solver::Best   as TSBest;
+use termo_solver::Solver as TSSolver;
+use termo_solver::Status as TSStatus;
 
-use yew::prelude::*;
 use yew::context::ContextHandle;
+use yew::prelude::*;
+use wasm_bindgen::closure::Closure;
 use wasm_bindgen_futures;
 
+use crate::components::block_card::BlockCard;
+use crate::components::column_pallete::ColumnPallete;
 use crate::components::data::block::Block;
 use crate::components::data::entry::Entry;
 use crate::components::generic::center::Center;
 use crate::components::generic::switch::Switch;
-use crate::components::block_card::BlockCard;
-use crate::components::column_pallete::ColumnPallete;
+use crate::components::generic::window_event_listener::WindowEventListener;
 use crate::components::status_pallete::StatusPallete;
 use crate::ctx::color_ctx::Color;
 use crate::ctx::color_ctx::ColorContext;
@@ -38,6 +40,7 @@ pub struct Controller {
     status:                  Option<TSStatus>,
     blocks:                  [Block; MAX_COLUMNS],
     color:                   ColorContext,
+    status_key_listener:     WindowEventListener,
     _color_context_listener: ContextHandle<ColorContext>,
 }
 
@@ -83,6 +86,8 @@ impl Component for Controller {
     type Properties = Properties;
     
     fn create(ctx: &Context<Self>) -> Self {
+        let link = ctx.link();
+
         let (columns, lines) = get_cols_and_lines(ctx.props().columns);
 
         let status = None;
@@ -103,7 +108,21 @@ impl Component for Controller {
             .context(ctx.link().callback(Self::Message::ColorCtxUpdated))
             .expect("No Color Context Provided");
 
-        Self { columns, status, blocks, color, _color_context_listener }
+        let select_status = link.callback(Self::Message::StatusSelected);
+        let status_key_listener = WindowEventListener::onkeyup(
+            Closure::new(move |e: KeyboardEvent| {
+                select_status.emit({
+                    match e.key().as_str() {
+                        "2" => { Some(TSStatus::Right) }
+                        "3" => { Some(TSStatus::Wrong) }
+                        "4" => { Some(TSStatus::Place) }
+                        _ => { None }
+                    }
+                })
+            })
+        );
+
+        Self { columns, status, blocks, color, status_key_listener, _color_context_listener }
     }
 
     fn changed(&mut self, ctx: &Context<Self>) -> bool {
@@ -127,7 +146,7 @@ impl Component for Controller {
         };
         
         self.columns = columns;
-        self.blocks  = blocks;
+        self.blocks = blocks;
 
         true
     }
@@ -135,13 +154,8 @@ impl Component for Controller {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let link = ctx.link();
 
-        let select_columns = link.callback(|v| {
-            Self::Message::ColumnsSelected(v)
-        });
-
-        let select_status  = link.callback(|v| {
-            Self::Message::StatusSelected(v)
-        });
+        let select_columns = link.callback(Self::Message::ColumnsSelected);
+        let select_status = link.callback(Self::Message::StatusSelected);
 
         let swap_color = {
             let color = self.color.clone();
